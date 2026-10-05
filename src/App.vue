@@ -6,6 +6,7 @@ const tabs = [
   { to: '/experience', label: 'Experience' },
   { to: '/projects', label: 'Projects' },
   { to: '/skills', label: 'Skills' },
+  { to: '/ask', label: 'Ask' },
   { to: '/contact', label: 'Contact' },
 ]
 

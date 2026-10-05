@@ -12,6 +12,7 @@ import { focus } from '../content.js'
       <p class="next">
         <RouterLink to="/experience">See my experience</RouterLink>
         <RouterLink to="/projects">Browse projects</RouterLink>
+        <RouterLink to="/ask">Ask my assistant</RouterLink>
       </p>
     </section>
 

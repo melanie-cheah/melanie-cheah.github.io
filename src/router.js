@@ -3,6 +3,7 @@ import Home from './views/Home.vue'
 import Experience from './views/Experience.vue'
 import Projects from './views/Projects.vue'
 import Skills from './views/Skills.vue'
+import Ask from './views/Ask.vue'
 import Contact from './views/Contact.vue'
 
 const routes = [
@@ -10,6 +11,7 @@ const routes = [
   { path: '/experience', component: Experience, meta: { title: 'Experience' } },
   { path: '/projects', component: Projects, meta: { title: 'Projects' } },
   { path: '/skills', component: Skills, meta: { title: 'Skills' } },
+  { path: '/ask', component: Ask, meta: { title: 'Ask' } },
   { path: '/contact', component: Contact, meta: { title: 'Contact' } },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ]

@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink } from 'vue-router'
 import { work, personal, links } from '../content.js'
 </script>
 
@@ -12,7 +13,12 @@ import { work, personal, links } from '../content.js'
       <div class="rows">
         <article v-for="item in work" :key="item.title" class="row">
           <h3>{{ item.title }}</h3>
-          <p>{{ item.text }}</p>
+          <div>
+            <p>{{ item.text }}</p>
+            <p class="more">
+              <RouterLink :to="{ path: '/ask', query: { q: 'Tell me about ' + item.title } }">Ask about this</RouterLink>
+            </p>
+          </div>
         </article>
       </div>
     </section>
@@ -22,12 +28,24 @@ import { work, personal, links } from '../content.js'
       <div class="rows">
         <article v-for="item in personal" :key="item.title" class="row">
           <h3>{{ item.title }}</h3>
-          <p>
-            {{ item.text }}
-            <a :href="links.source">View the source</a>.
-          </p>
+          <div>
+            <p>{{ item.text }}</p>
+            <p class="more">
+              <a :href="links.source">View the source</a>
+              <RouterLink :to="{ path: '/ask', query: { q: 'Tell me about ' + item.title } }">Ask about this</RouterLink>
+            </p>
+          </div>
         </article>
       </div>
     </section>
   </div>
 </template>
+
+<style scoped>
+.more {
+  display: flex;
+  gap: 24px;
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+</style>
