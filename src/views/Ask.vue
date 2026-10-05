@@ -1,35 +1,26 @@
 <script setup>
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, watch, onMounted, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
-import { ask, suggestions } from '../assistant.js'
+import { chat, send } from '../chat.js'
+import { suggestions } from '../assistant.js'
 
 const route = useRoute()
-const messages = ref([])
 const draft = ref('')
-const loading = ref(false)
 const endEl = ref(null)
 
-async function scrollToEnd() {
-  await nextTick()
-  if (endEl.value) endEl.value.scrollIntoView({ block: 'nearest' })
-}
-
-async function send(text) {
-  const question = (text || '').trim()
-  if (!question || loading.value) return
-
-  messages.value.push({ role: 'user', content: question })
+function submit() {
+  const text = draft.value
   draft.value = ''
-  loading.value = true
-  await scrollToEnd()
-
-  const history = messages.value.map((m) => ({ role: m.role, content: m.content }))
-  const reply = await ask(history)
-
-  messages.value.push({ role: 'assistant', content: reply.text, source: reply.source })
-  loading.value = false
-  await scrollToEnd()
+  send(text)
 }
+
+watch(
+  () => [chat.messages.length, chat.loading],
+  async () => {
+    await nextTick()
+    if (endEl.value) endEl.value.scrollIntoView({ block: 'nearest' })
+  }
+)
 
 onMounted(() => {
   const q = route.query.q
@@ -45,23 +36,23 @@ onMounted(() => {
       It can make mistakes, so check anything important with me directly.
     </p>
 
-    <div v-if="!messages.length" class="suggest">
+    <div v-if="!chat.messages.length" class="suggest">
       <button v-for="s in suggestions" :key="s" type="button" @click="send(s)">{{ s }}</button>
     </div>
 
     <div class="log" aria-live="polite">
-      <div v-for="(m, i) in messages" :key="i" :class="['msg', m.role]">
+      <div v-for="(m, i) in chat.messages" :key="i" :class="['msg', m.role]">
         <p class="who">{{ m.role === 'user' ? 'You' : 'Assistant' }}</p>
         <p class="text">{{ m.content }}</p>
         <p v-if="m.source === 'fallback'" class="note">
           The AI assistant is unavailable right now, so this answer comes from a simple search of this site.
         </p>
       </div>
-      <p v-if="loading" class="thinking">Thinking...</p>
+      <p v-if="chat.loading" class="thinking">Thinking...</p>
       <div ref="endEl"></div>
     </div>
 
-    <form class="ask" @submit.prevent="send(draft)">
+    <form class="ask" @submit.prevent="submit">
       <label for="q" class="sr">Your question</label>
       <input
         id="q"
@@ -71,7 +62,7 @@ onMounted(() => {
         placeholder="Ask about my experience, projects or skills"
         autocomplete="off"
       />
-      <button type="submit" :disabled="loading || !draft.trim()">Ask</button>
+      <button type="submit" :disabled="chat.loading || !draft.trim()">Ask</button>
     </form>
 
     <p class="privacy">

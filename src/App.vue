@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import ChatWidget from './components/ChatWidget.vue'
 
 const tabs = [
   { to: '/', label: 'Home' },
@@ -34,6 +35,8 @@ const year = new Date().getFullYear()
     <main class="page">
       <RouterView />
     </main>
+
+    <ChatWidget />
 
     <footer class="foot">
       <div class="foot-inner">
