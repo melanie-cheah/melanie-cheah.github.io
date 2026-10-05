@@ -7,6 +7,7 @@
   --teal-text: #007f73;
   --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
   --sans: 'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --width: 860px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -35,6 +36,55 @@ a:hover { color: var(--teal-text); }
   outline: 3px solid var(--teal);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+p { margin: 0; }
+
+h1.title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(2.2rem, 6vw, 3.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0 0 12px;
+}
+
+.intro {
+  color: var(--muted);
+  max-width: 36em;
+  margin: 0 0 56px;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.6rem;
+  margin: 0 0 20px;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Label on the left, text on the right, with a rule between rows. */
+.rows { border-bottom: 1px solid var(--rule); }
+
+.row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 8px 32px;
+  padding: 22px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.row p { max-width: 36em; }
+
+.block + .block { margin-top: 72px; }
+
+@media (max-width: 640px) {
+  .row { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
